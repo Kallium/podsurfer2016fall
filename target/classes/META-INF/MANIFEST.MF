@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: spring-template
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Kaellen Harrington
+Implementation-Vendor-Id: com.credera
+Build-Jdk: 1.8.0_101
+Implementation-URL: http://projects.spring.io/spring-boot/podsurfer-te
+ mplate/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+

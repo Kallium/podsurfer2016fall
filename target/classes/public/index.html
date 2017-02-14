@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html ng-app="app">
+
+<head>
+  <!-- Include External Libraries -->
+  <link rel="stylesheet" href="ext/bootstrap.min.css" />
+  <link rel="stylesheet" href="ext/font-awesome.min.css" />
+  <link rel="stylesheet" href="ext/Roboto-300">
+  <script src="ext/angular.js"></script>
+  <script src="ext/angular-cookies.js"></script>
+  <script src="ext/angular-ui-router.js"></script>
+  <script src="ext/jquery.min.js"></script>
+  <script src="ext/lodash.min.js"></script>
+  <script src="ext/bootstrap.min.js"></script>
+
+  <!-- Include all your javascript here. Also include the module before the controller -->
+  <script src="app.module.js"></script>
+  <script src="app.route.js"></script>
+  <script src="about/about.controller.js"></script>
+  <script src="account/account.controller.js"></script>
+  <script src="account/account.service.js"></script>
+  <script src="contact/contact.controller.js"></script>
+  <script src="contact/contact.service.js"></script>
+  <script src="home/home.controller.js"></script>
+  <script src="home/home.service.js"></script>
+  <script src="index.controller.js"></script>
+  <script src="join/join.controller.js"></script>
+  <script src="join/join.service.js"></script>
+  <script src="podcast/podcast.controller.js"></script>
+  <script src="podcast/podcast.service.js"></script>
+  <script src="recommended/recommended.controller.js"></script>
+  <script src="recommended/recommended.service.js"></script>
+  <script src="search/search.controller.js"></script>
+  <script src="search/search.service.js"></script>
+  <script src="sign_in/sign_in.controller.js"></script>
+  <script src="sign_in/sign_in.service.js"></script>
+  <!--script src="sign_out/sign_out.controller.js"></script-->
+  <script src="upload/upload.controller.js"></script>
+  <script src="upload/upload.service.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="app.css">
+</head>
+
+<body ng-controller="indexController">
+  <nav class="navbar navbar-default navbar-fixed-top" id="navbar">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" ui-sref="home"><i class="fa fa-connectdevelop"></i> PodSurfer</a>
+      </div>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
+        <li ng-show="signedIn"><a ui-sref="upload"><i class="fa fa-upload"></i> Upload</a></li>
+        <li><a ui-sref="recommended"><i class="fa fa-connectdevelop"></i> Recommended</a></li>
+        <li><a ui-sref="search"><i class="fa fa-search"></i> Search</a></li>
+        <li ng-show="!signedIn"><a ui-sref="join"><i class="fa fa-user-plus"></i> Join</a></li>
+        <li ng-show="!signedIn"><a ui-sref="sign_in"><i class="fa fa-sign-in"></i> Sign In</a></li>
+        <li ng-show="signedIn"><a ui-sref="account"><i class="fa fa-user"></i> Account</a></li>
+        <li ng-show="signedIn"><a ui-sref="home" ng-click="signOut()"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+        <li class="ng-hide"><a ui-sref="contact"><i class="fa fa-comment"></i> Contact</a></li>
+        <li class="ng-hide"><a ui-sref="about"><i class="fa fa-shield"></i> About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="main">
+    <div ui-view></div>
+  </div>
+
+</body>
+
+</html>
