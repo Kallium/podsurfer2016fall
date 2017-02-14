@@ -1,0 +1,99 @@
+* {
+	font-family: 'Roboto', sans-serif;
+}
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+#main {
+	padding-top: 325px;
+}
+
+.fa-padding-left::before {
+	padding-left: 3px;
+}
+
+.link-spoiler,
+.link-spoiler::before {
+	transition: all 0.2s ease-in-out;
+}
+
+.link-spoiler {
+	display: inline-block;
+	color: transparent;
+	text-shadow: 0 0 5px rgba(0, 89, 165, 0.8);
+}
+
+.link-spoiler::before {
+	content: "Spoiler: ";
+	color: #337ab7;
+	text-shadow: initial;
+}
+
+.link-spoiler:hover {
+	text-shadow: initial;
+}
+
+.link-spoiler:hover::before {
+	color: unset;
+}
+
+.review-spoiler::before {
+	content: "Spoiler: ";
+	position: absolute;
+	left: 18px;
+	padding-top: 10px;
+}
+
+.review-spoiler .panel-heading span,
+.review-spoiler .panel-body {
+	transition: all 0.17s ease-in-out;
+}
+
+.review-spoiler:not(:hover) .panel-heading span,
+.review-spoiler:not(:hover) .panel-body {
+	filter: blur(2px);
+}
+
+.row-fixed {
+	width: 100%;
+	position: fixed;
+	top: 325px;
+	bottom: 0;
+}
+
+.group-tight {
+	margin-bottom: 5px;
+}
+
+.form-group-fill {
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+}
+
+.form-group-fill *:last-child {
+	width: 0;
+	flex: 1 auto;
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+	#main {
+		padding-top: 70px;
+	}
+
+	.row-fixed {
+		width: inherit;
+		top: 70px;
+	}
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+
+}

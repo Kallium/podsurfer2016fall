@@ -1,0 +1,172 @@
+<div class="container">
+	<div class="row row-fixed">
+		<div class="col-xs-offset-1 col-xs-3" style="height:100%">
+			<br/>
+			<div class="col-xs-12" style="max-height:calc(100% - 40px);overflow:auto">
+				<div class="well col-xs-12">
+					<div class="thumbnail">
+						<a href="{{podcast.thisPodcast.link}}"><img ng-src="{{podcast.thisPodcast.imageURL}}"/></a>
+					</div>
+					<h3><a href="{{podcast.thisPodcast.link}}">{{podcast.thisPodcast.name}}</a></h3>
+					<h5>by {{podcast.thisPodcast.producer}}</h5>
+					<h5>on {{podcast.thisPodcast.release}}</h5>
+					Tags: 
+					<span ng-repeat="tag in podcast.thisPodcast.tags">
+						<a href="#/search?type=tag&q={{tag}}">{{tag}}</a>
+					</span>
+				</div>
+<<<<<<< HEAD
+			<div class="fb-share-button" data-href="http://podsurferapp-6.heroku.com" data-layout="button" > </div>
+=======
+				<h3><a href="{{podcast.thisPodcast.link}}">{{podcast.thisPodcast.name}}</a></h3>
+				<h5>by {{podcast.thisPodcast.producer}}</h5>
+				<h5>on {{podcast.thisPodcast.release}}</h5>
+				Tags: 
+				<span ng-repeat="tag in podcast.thisPodcast.tags">
+					<a href="#/search?type=tag&q={{tag}}">{{tag}}</a><span ng-if="!$last">,</span>
+				</span>
+				</br>
+				<hr>
+				<div style="display:flex;justify-content:space-around">
+					<a href="https://twitter.com/share?url={{shareUrl}}&hashtags=podsurfer"><i class="fa fa-twitter"> Tweet</i></a>
+					<a href="https://www.facebook.com/sharer/sharer.php?app_id=824794047623314&u={{shareUrl}}"><i class="fa fa-facebook"> Share</i></a>
+				</div>
+>>>>>>> refs/remotes/origin/master
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-offset-4 col-xs-7">
+			<h3>
+				{{podcast.thisPodcast.description}}&nbsp;
+				<button class="btn btn-default pull-right" ng-click="podcast.edit()" ng-if="signedIn">Edit</button>
+				<button class="btn btn-default pull-right" style="margin-right:10px" ng-click="podcast.bookmark()" ng-disabled="podcast.bookmarking" ng-if="signedIn && podcast.user.bookmarks">{{bookmark}}</button>
+			</h3>
+			<br/>
+               
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="text-left">{{podcast.thisPodcast.length}} Episodes:</h4>
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="col-xs-1">#</th>
+							<th class="col-xs-5">Name</th>
+							<th class="col-xs-1">Length</th>
+							<th class="col-xs-3"></th>
+							<th class="col-xs-2">Reviews</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="episode in podcast.thisPodcast.episodes | orderBy : 'number'">
+							<th scope="row" class="col-xs-1">{{episode.number}}</th>
+							<td class="col-xs-5"><abbr title="{{episode.description}}">{{episode.name}}</abbr></td>
+							<td class="col-xs-1 text-right">{{episode.length}}</td>
+							<td class="col-xs-3">
+								<a ng-click="podcast.toggleAudioForEpisode(episode.number)" role="button" ng-if="episode.link !== undefined">
+									<i class="fa fa-play" id="audioForEpisode{{episode.number}}Icon"></i>
+								</a>
+								<audio class="episode-player" id="audioForEpisode{{episode.number}}" data-episode-index="{{$index}}" data-episode-number="{{episode.number}}" data-episode-length="{{::episode.length}}" data-episode-time="{{::formattedTimeToSeconds(episode.length)}}" ng-src="{{episode.link | trustUrl}}"  ng-if="episode.link !== undefined"></audio>
+							</td>
+							<td class="col-xs-2" ng-if="podcast.episodesReviewCount[episode.number] !== undefined">
+								<a ng-click='podcast.scrollToReviewsForEpisode(episode.number)' role="button">Read {{podcast.episodesReviewCount[episode.number]}} <i class="fa fa-level-down"></i></a>
+							</td>
+							<td class="col-xs-2" ng-if="signedIn && podcast.episodesReviewCount[episode.number] === undefined">
+								<a ng-click='podcast.scrollToWrite(episode.number)' role="button">Write <i class="fa fa-level-down"></i></a>
+							</td>
+							<td class="col-xs-2" ng-if="!signedIn && podcast.episodesReviewCount[episode.number] === undefined">
+								No Reviews
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<form class="row" id="write" ng-if="signedIn">
+		<div class="col-xs-offset-4 col-xs-7">
+			<h3>Write a review for...</h3>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<select class="form-control" ng-model="userReview.episode"  ng-disabled="podcast.submittingReview" convert-to-number>
+						<option value="">The Podcast</option>
+						<option ng-repeat="episode in podcast.thisPodcast.episodes | orderBy : 'number'" value="{{episode.number}}">Episode {{episode.number}}: {{episode.name}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-xs-offset-1 panel panel-default">
+				<div class="panel-heading">
+					<div class="row">
+							<div class="col-xs-3">
+								<div class="col-xs-12 input-group" ng-class="{'has-error': podcast.invalidRating}">
+									<input type="number" min="0" max="5" class="form-control" id="writeFocus" placeholder="#" ng-model="userReview.rating" ng-disabled="podcast.submittingReview">
+									<span class="input-group-addon">/5</span>
+								</div>
+							</div>
+							<div class="col-xs-9" style="padding-left:0">
+								<div class="col-xs-12 input-group" ng-class="{'has-error': podcast.invalidName}">
+									<input type="text" class="form-control" style="border-radius:4px" placeholder="Title" ng-model="userReview.name" ng-disabled="podcast.submittingReview">
+								</div>
+							</div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="checkbox" style="margin-top:0">
+						<label>
+							<input type="checkbox" style="margin-top:0" value="" ng-model="userReview.spoilers" ng-disabled="podcast.submittingReview">
+							Spoiler
+						</label>
+					</div>
+					<div ng-class="{'has-error': podcast.invalidReview}">
+						<textarea class="form-control" rows="5" ng-model="userReview.review" ng-disabled="podcast.submittingReview"></textarea>
+					</div>
+				</div>
+				<ul class="list-group">
+					<li class="list-group-item text-right">By <b>{{podcast.user.name}}</b></li>
+				</ul>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<button type="submit" class="btn btn-default pull-right" ng-click="submit(userReview)" ng-disabled="podcast.submittingReview">Submit</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-offset-1 col-xs-11">
+					<br/>
+					<pre class="text-danger ng-hide" ng-show="podcast.reviewError">{{podcast.reviewErrorMessage}}</pre>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="row">
+		<div class="col-xs-offset-4 col-xs-7">
+			<h3>Reviews for...</h3>
+			<div ng-repeat="reviewCollection in podcast.reviewsForEpisode | orderBy : 'number' track by $index" ng-if="reviewCollection !== undefined && reviewCollection.reviews.length !== 0">
+				<div class="panel panel-default">
+					<div class="panel-heading" id="reviewsFor{{reviewCollection.number}}">
+						<h4 class="panel-title">{{reviewCollection.heading}}</h4>
+					</div>
+				</div>
+				<div ng-repeat="review in reviewCollection.reviews">
+					<i class="fa fa-close" style="position:absolute;right:0;margin-top:1em" ng-click="deleteReview(review, $index)" role="button" ng-if="signedIn && podcast.user._id === review.reviewer.id"></i>
+					<div class="col-xs-offset-1 panel panel-default" ng-class="{ 'review-spoiler' : review.spoilers, 'panel-info' : podcast.selectedReviewId === 'review' + review._id }">
+						<div class="panel-heading" id="review{{review._id}}">
+							<b>{{review.rating}}/5</b>
+							<span>&nbsp;&nbsp;{{review.name}}</span>
+							<button class="btn btn-default pull-right" style="margin-top:-.5em;margin-right:-10px" ng-click="editReview(review, $index)" ng-if="signedIn && podcast.user._id === review.reviewer.id">Edit</button>
+						</div>
+						<div class="panel-body">
+							{{review.review}}
+							<br/>
+							<br/>
+						</div>
+						<ul class="list-group">
+							<li class="list-group-item text-right">By <b>{{review.reviewer.name}}</b></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

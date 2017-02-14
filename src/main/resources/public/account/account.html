@@ -1,0 +1,182 @@
+<div class="container">
+    
+    <div class="row">
+    	<div class="col-xs-offset-8 col-xs-4">
+    		<button class="btn btn-default pull-right" ng-click="editing=true">Edit</button>
+    	</div>
+    </div>
+    
+    <div class="row">
+    	<div class="col-xs-offset-3 col-xs-6">
+        	<h1 class="text-center" ng-hide="editing"> {{account.accountInfo.name}} </h1>
+        </div>
+		<div class="col-xs-offset-3 col-xs-6">
+			<input type="text" class="form-control" id="name" placeholder="Name" ng-model="account.accountInfo.name" ng-show="editing">
+		</div>
+	</div>
+	<div class="row">
+        <div class="col-xs-offset-3 col-xs-6">
+        	<h1 class="text-center"> {{account.accountInfo.email}} </h1>
+        </div>
+    </div>
+
+    <hr class="row" />
+    
+    <ul class="nav nav-tabs">
+	  <li ng-class="{ active : isSet(1) }"><a href ng-click="setTab(1)" >About Me</a></li>
+	  <li ng-class="{ active : isSet(2) }"><a href ng-click="setTab(2)" >Reviews</a></li>
+	</ul>
+    
+    <br/>
+  	<div ng-show="isSet(1)">
+  		<div class="row">
+  			<div class="col-xs-2">
+			    <div class="row">
+			    	<div class="col-xs-12">
+			    		<h2 class="text-center">Interests</h2>
+			    	</div>
+			    </div>
+		    
+			    <br/>
+			    
+			    <div class="allInterests">
+				    <div ng-repeat="interest in account.accountInfo.interests track by $index">
+				    	<div ng-hide="editing">
+				    		<h4 class="singleInterest">{{interest}}</h4>
+				    	</div>
+				    	<div class="row" ng-show="editing">
+						    <div class="col-xs-8">
+								<input type="text" class="form-control" id="interest{{$index+1}}" placeholder="Interest" ng-model="account.accountInfo.interests[$index]" ng-change="checkInterest($index)">
+							</div>
+							<button ng-click="deleteInterest($index)">Delete</button>
+				    	</div>
+				    	
+				    	<div class="row">
+				    		<font color="red"><h5 id="interestErrorMessage{{$index}}"></h5></font>
+				    	</div>
+				    	
+				    </div>
+				    
+				    <div class="row" ng-show="editing">
+					    <div class="col-xs-8">
+							<input type="text" class="form-control" id="interest{{account.accountInfo.interests.length+1}}" placeholder="Interest" ng-model="account.accountInfo.interests[account.accountInfo.interests.length]" ng-disabled="account.addingField" ng-change="fixInterestFocus()">
+						</div>
+			    	</div>
+				    
+				</div>
+			</div>
+		
+			<div class="col-xs-5">    
+			    <div class="row">
+			    	<div class="col-xs-12">
+			    		<h2 class="text-center">Bookmarks</h2>
+			    	</div>
+			    </div>
+			    
+			    <br/>
+			    
+			    <div class="allBookmarks">
+				    <div ng-repeat="bookmark in account.accountBookmarks track by $index">
+				    	<div class="row">
+					    	<div ng-hide="editing" class="singleBookmark">
+					    		<div class="well col-xs-12">
+					    			<div class="col-xs-3">
+										<div class="thumbnail">
+											<a href="/#/podcast?id={{bookmark._id}}"><img src="{{bookmark.imageURL}}"/ height="70" width="70"></a>
+										</div>
+									</div>
+									<h3><a href="/#/podcast?id={{bookmark._id}}">{{bookmark.name}}</a></h3>
+									<h5>by {{bookmark.producer}}</h5>
+									<h5>on {{bookmark.release}}</h5>
+								</div>
+							</div>
+				    	</div>
+				    	<div class="row" ng-show="editing">
+						    <div class="col-xs-8">
+								<input type="text" class="form-control" id="bookmark{{$index+1}}" placeholder="Bookmark" ng-model="account.accountBookmarks[$index].name" ng-change="checkBookmarkName($index)">
+							</div>
+							<button ng-click="deleteBookmark($index)">Delete</button>
+				    	</div>
+				    	<div class="row">
+				    		<font color="red"><h5 id="bookmarkErrorMessage{{$index}}"></h5></font>
+				    	</div>
+				    </div>
+				    
+				    <div class="row" ng-show="editing">
+					    <div class="col-xs-8">
+							<input type="text" class="form-control" id="bookmark{{account.accountBookmarks.length+1}}" placeholder="Bookmark" ng-model="account.accountBookmarks[account.accountBookmarks.length].name" ng-disabled="account.addingField" ng-change="fixBookmarkFocus()">
+						</div>
+			    	</div>
+				    
+				</div>
+		    </div>
+		    
+		    <div class="col-xs-5">
+		    	<div class="row">
+		    		<div class="col-xs-12">
+		    			<h2 class="text-center">Recommendations</h2>
+		    		</div>
+	    		</div>
+	    		
+	    		<br/>
+	    		
+	    		<div ng-repeat="recommended in account.recommendations track by $index" ng-if="$index < 5">
+			    	<div class="row">
+				    	<div class="singleRecommendation">
+				    		<div class="well col-xs-11 col-xs-offset-1">
+				    			<div class="col-xs-3">
+									<div class="thumbnail">
+										<a href="/#/podcast?id={{recommended.podcast._id}}"><img src="{{recommended.podcast.imageURL}}"/ height="70" width="70"></a>
+									</div>
+								</div>
+								<h3><a href="/#/podcast?id={{recommended.podcast._id}}">{{recommended.podcast.name}}</a></h3>
+								<h5>by {{recommended.podcast.producer}}</h5>
+								<h5>on {{recommended.podcast.release}}</h5>
+							</div>
+						</div>
+			    	</div>
+   				 </div>
+
+		    </div>
+		    
+		    <div class="row">
+		    	<div class="col-xs-12 text-center">
+		    		<button class="btn btn-default" ng-click="saveChanges()" ng-show="canSave && editing">Save</button>
+		    	</div>
+		    </div>
+		</div>
+	</div>
+	
+    <div id="reviews" ng-show="isSet(2)">
+	 	<div class="row">
+	 		<h2 class="text-center">Podcasts I've Reviewed</h2>
+	 	</div>
+	 	<div ng-repeat="review in account.reviews">
+	 		<div class="well row">
+		    	<div class="singleReview">
+		    		<div class="row">
+			    		<div class="col-xs-12">
+			    			<div class="col-xs-3">
+								<div class="thumbnail">
+									<a href="/#/podcast?id={{review.podcast._id}}"><img src="{{review.podcast.imageURL}}"/></a>
+								</div>
+							</div>
+							<h3><a href="/#/podcast?id={{review.podcast._id}}">{{review.podcast.name}}</a></h3>
+							<h5>by {{review.podcast.producer}}</h5>
+							<h5>on {{review.podcast.release}}</h5>
+						</div>
+					</div>
+					<hr class="row">
+					<div class="row">
+						<div class="col-xs-2 text-center"> <h4>{{review.rating}} / 5</h4></div>
+						<div class="col-xs-10"><h4><b><a href="/#/podcast?id={{review.podcast._id}}#review{{review._id}}">{{review.name}}</a></b></h4></div>
+					</div>
+					<div class="row">
+						<div class="col-xs-10 col-xs-offset-2">{{review.review}}</div>
+					</div>
+				</div>
+	    	</div>
+	 	</div>
+    </div>
+    <br/>
+</div>

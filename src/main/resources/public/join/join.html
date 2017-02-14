@@ -1,0 +1,62 @@
+<div class="container">
+	<div class="row">
+		<h2 class="text-center">Join the PodSurfer Family</h2>
+		<h4 class="text-center">We always have room for one more</h4>
+	</div>
+
+	<hr class="row"/>
+	<br class="row"/>
+	<div class="row col-xs-offset-3 col-xs-6">
+		<form novalidate class="form-horizontal">
+			<div class="form-group" ng-class="{'has-error': join.invalidName}">
+				<label for="name" class="col-xs-2 control-label">Name</label>
+				<div class="col-xs-8">
+					<input type="text" class="form-control" id="name" placeholder="Name" ng-model="user.name" ng-disabled="join.submitting">
+				</div>
+			</div>
+			<div class="form-group" ng-class="{'has-error': join.invalidEmail}">
+				<label for="email" class="col-xs-2 control-label">Email</label>
+				<div class="col-xs-8">
+					<input type="email" class="form-control" id="email" placeholder="Email" ng-model="user.email" ng-disabled="join.submitting">
+				</div>
+			</div>
+			<div class="form-group" ng-class="{'has-error': join.invalidPassword}">
+				<label for="password" class="col-xs-2 control-label">Password</label>
+				<div class="col-xs-8">
+					<input type="password" class="form-control" id="password" placeholder="Password" ng-model="user.password" ng-disabled="join.submitting">
+				</div>
+			</div>
+			<div class="form-group">
+    				<div class="col-xs-offset-2 col-xs-8">
+      					<button type="submit" class="btn btn-default pull-right" ng-click="submit(user)" ng-disabled="join.submitting">Join</button>
+    				</div>
+  			</div>
+		</form>
+		<pre class="col-xs-offset-2 col-xs-8 text-danger ng-hide" ng-show="join.joinError">{{join.joinErrorMessage}}</pre>
+	</div>
+    <!--div class="row">
+        <h3 class="text-center"> Join </h3>
+        <h5 class="text-center"> Get to know us! </h5>
+    </div>
+
+    <hr class="row" />
+    <br/>
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <td><h4>Name</h4></td>
+                    <td><h4>E-mail</h4></td>
+                    <td><h4>University</h4></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="mentor in join.mentors">
+                    <td>{{mentor.name}}</td>
+                    <td>{{mentor.email}}</td>
+                    <td>{{mentor.university}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div-->
+</div>

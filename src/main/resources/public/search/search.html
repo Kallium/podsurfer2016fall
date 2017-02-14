@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="row">
+        <h3 class="text-center"> Search </h3>
+    </div>
+
+	<div class="row">
+		<span>
+		<div class="col-md-4 col-lg-offset-4" id="searchBar">
+			<div class="text-center dropdown">
+				<input type="text" ng-model="searchItem">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Search By
+				</button>
+				<div class="text-center dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+					<a class="btn btn-secondary dropdown-item" type="button" ng-click="searchName(searchItem)">Name</a>
+					<div class="dropdown-divider"></div>
+					<a class="btn btn-secondary dropdown-item" type="button" ng-click="searchDescription(searchItem)">Description</a>
+					<div class="dropdown-divider"></div>
+					<a class="btn btn-secondary dropdown-item" type="button" ng-click="searchProducer(searchItem)">Producer</a>
+					<div class="dropdown-divider"></div>
+					<a class="btn btn-secondary dropdown-item" type="button" ng-click="searchTag(searchItem)">Tag</a>
+				</div>
+			</div>
+		</div>
+		</span>
+	</div>
+	
+    <hr class="row" />
+    <br/>
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td><a class="btn btn-secondary" type="button" ng-click="sortName()"><h4>Name</h4></a></td>
+                    <td><a class="btn btn-secondary" type="button" ng-click="sortAverage()"><h4>Average</h4></a></td>
+					<td><a class="btn btn-secondary" type="button" ng-click="sortProducer()"><h4>Producer</h4></a></td>
+					<td><a class="btn btn-secondary" type="button" ng-click="sortDescription()"><h4>Description</h4></a></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="podcastAndReviewsAverage in relevantPodcasts">
+                    <td><a ng-href="/#/podcast?id={{podcastAndReviewsAverage.id}}" >{{podcastAndReviewsAverage.name}}</a></td>
+                    <td>{{formatNumber(podcastAndReviewsAverage.average)}}</td>
+					<td>{{podcastAndReviewsAverage.producer}}</td>
+					<td>{{podcastAndReviewsAverage.description}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

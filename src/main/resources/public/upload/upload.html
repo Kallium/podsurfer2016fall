@@ -1,0 +1,121 @@
+<form class="container">
+	<div class="row row-fixed">
+		<div class="col-xs-offset-1 col-xs-3" style="height:100%">
+			<br/>
+			<div class="well col-xs-12" style="max-height:calc(100% - 40px);overflow:auto">
+				<div class="form-group" ng-class="{'has-error': upload.invalidImageUrl}">
+					<div class="thumbnail group-tight">
+						<img ng-src="{{thisPodcast.imageURL}}"/>
+					</div>
+					<input type="url" class="form-control" placeholder="Image URL" ng-model="thisPodcast.imageURL" ng-disabled="upload.submitting">
+				</div>
+
+				<div class="form-group group-tight" ng-class="{'has-error': upload.invalidName}">
+					<input type="text" class="form-control" placeholder="Name" ng-model="thisPodcast.name" ng-disabled="upload.submitting">
+				</div>
+
+				<div class="form-group group-tight" ng-class="{'has-error': upload.invalidLink}">
+					<input type="text" class="form-control" placeholder="Homepage" ng-model="thisPodcast.link" ng-disabled="upload.submitting">
+				</div>
+
+				<div class="form-group group-tight form-group-fill" ng-class="{'has-error': upload.invalidProducer}">
+					<span class="h5">by&nbsp;</span>
+					<input type="text" class="form-control" placeholder="Producer" ng-model="thisPodcast.producer" ng-disabled="upload.submitting">
+					
+				</div>
+
+				<div class="form-group group-tight form-group-fill" ng-class="{'has-error': upload.invalidRelease}">
+					<span class="h5">on&nbsp;</span>
+					<input type="text" class="form-control" placeholder="Release Date" ng-model="thisPodcast.release" ng-disabled="upload.submitting">
+				</div>
+
+				<h5 class="form-group group-tight" ng-class="{'has-error': upload.invalidTags}">Tags:</h5>
+				<div ng-repeat="tag in thisPodcast.tags track by $index">
+					<div class="form-group group-tight form-group-fill" ng-class="{'has-error': upload.invalidTags}">
+						<input type="text" class="form-control" id="tag{{$index+1}}" placeholder="Tag {{$index+1}}" ng-model="thisPodcast.tags[$index]" ng-disabled="upload.submitting">
+						<i class="fa fa-close fa-padding-left" ng-click="deleteTag($index)" role="button" ng-hide="upload.submitting"></i>
+					</div>
+				</div>
+				<div class="form-group" ng-class="{'has-error': upload.invalidTags}">
+					<input type="text" class="form-control" placeholder="Tag {{thisPodcast.tags.length+1}}" ng-model="thisPodcast.tags[thisPodcast.tags.length]" ng-disabled="upload.addingTag || upload.submitting" ng-change="fixTagFocus()">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-offset-4 col-xs-7">
+			<h3>
+				<div class="form-group" ng-class="{'has-error': upload.invalidDescription}">
+					<input type="text" class="form-control" placeholder="Description" ng-model="thisPodcast.description" ng-disabled="upload.submitting">
+				</div>
+			</h3>
+			<br/>
+               
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="form-group-fill text-left" ng-class="{'has-error': upload.invalidLength}">
+						<input type="text" class="form-control" style="width:16.66666667%" placeholder="Total" ng-model="thisPodcast.length" ng-disabled="upload.submitting">
+						<span class="h4">&nbsp;Episodes:</span>
+					</div>
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="col-xs-2">#</th>
+							<th class="col-xs-3">Name</th>
+							<th class="col-xs-2">Length</th>
+							<th class="col-xs-2">Audio URL</th>
+							<th class="col-xs-3">Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="episode in thisPodcast.episodes track by $index">
+							<th scope="row" class="col-xs-2 form-group">
+								<input type="text" class="form-control" id="episode{{$index+1}}Number" placeholder="#" ng-model="thisPodcast.episodes[$index].number" ng-disabled="upload.submitting">
+							</th>
+							<td class="col-xs-3 form-group"><!--a href="{{episode.link}}">{{episode.name}}</a-->
+								<input type="text" class="form-control" id="episode{{$index+1}}Name" placeholder="Name" ng-model="thisPodcast.episodes[$index].name" ng-disabled="upload.submitting">
+							</td>
+							<td class="col-xs-2 form-group">
+								<input type="text" class="form-control" id="episode{{$index+1}}Length" placeholder="Length" ng-model="thisPodcast.episodes[$index].length" ng-disabled="upload.submitting">
+							</td>
+							<td class="col-xs-2 form-group">
+								<input type="url" class="form-control" id="episode{{$index+1}}Audio" placeholder="Audio URL" ng-model="thisPodcast.episodes[$index].link" ng-disabled="upload.submitting">
+							</td>
+							<td class="col-xs-3 form-group">
+								<input type="text" class="form-control" id="episode{{$index+1}}Description" placeholder="Description" ng-model="thisPodcast.episodes[$index].description" ng-disabled="upload.submitting">
+								<i class="fa fa-close" style="position:absolute;right:0;margin-top:-1.8em" ng-click="deleteEpisode($index)" role="button" ng-hide="upload.submitting"></i>
+							</td>
+						</tr>
+						<tr class="form-group">
+							<th scope="row" class="col-xs-2 form-group">
+								<input type="text" class="form-control" id="episode{{thisPodcast.episodes.length+1}}Number" placeholder="#" ng-model="thisPodcast.episodes[thisPodcast.episodes.length].number" ng-disabled="upload.addingEpisode || upload.submitting" ng-change="fixEpisodeFocus('Number')">
+							</th>
+							<td class="col-xs-3 form-group"><!--a href="{{episode.link}}">{{episode.name}}</a-->
+								<input type="text" class="form-control" id="episode{{thisPodcast.episodes.length+1}}Name" placeholder="Name" ng-model="thisPodcast.episodes[thisPodcast.episodes.length].name" ng-disabled="upload.addingEpisode || upload.submitting" ng-change="fixEpisodeFocus('Name')">
+							</td>
+							<td class="col-xs-2 form-group">
+								<input type="text" class="form-control" id="episode{{thisPodcast.episodes.length+1}}Length" placeholder="Length" ng-model="thisPodcast.episodes[thisPodcast.episodes.length].length" ng-disabled="upload.addingEpisode || upload.submitting" ng-change="fixEpisodeFocus('Length')">
+							</td>
+							<td class="col-xs-2 form-group">
+								<input type="url" class="form-control" id="episode{{thisPodcast.episodes.length+1}}Audio" placeholder="Audio URL" ng-model="thisPodcast.episodes[thisPodcast.episodes.length].link" ng-disabled="upload.addingEpisode || upload.submitting" ng-change="fixEpisodeFocus('Audio')">
+							</td>
+							<td class="col-xs-3 form-group">
+								<input type="text" class="form-control" id="episode{{thisPodcast.episodes.length+1}}Description" placeholder="Description" ng-model="thisPodcast.episodes[thisPodcast.episodes.length].description" ng-disabled="upload.addingEpisode || upload.submitting" ng-change="fixEpisodeFocus('Description')">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-offset-4 col-xs-7">
+			<button type="submit" class="btn btn-default pull-right" ng-click="submit(thisPodcast)" ng-disabled="upload.submitting">{{submitButtonText}}</button>
+		</div>
+	</div>
+	<div class="row">
+		<br/>
+		<pre class="col-xs-offset-4 col-xs-7 text-danger ng-hide" ng-show="upload.uploadError">{{upload.uploadErrorMessage}}</pre>
+	</div>
+</form>
